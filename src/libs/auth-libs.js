@@ -4,7 +4,7 @@ import prisma from "./prisma"
 export const authUserSession = async() => {
     const session = await getServerSession(authOptions)
     if(!session) return null
-    const user = await prisma.user.findUnique({
+    const user = await prisma?.user.findUnique({
         where: {
             email: session?.user.email
         }
