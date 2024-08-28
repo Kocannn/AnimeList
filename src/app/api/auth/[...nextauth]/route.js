@@ -6,7 +6,7 @@ import prisma from "../../../../libs/prisma"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt"
 
-export const authOption = {
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     githubAuth({
@@ -54,6 +54,6 @@ export const authOption = {
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",
 };
-const handler = NextAuth(authOption);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
