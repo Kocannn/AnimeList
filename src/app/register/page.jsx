@@ -51,11 +51,11 @@ export default function Page() {
         </div>
       )}
 
-      <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8">
-        <div className="bg-[#5555] w-1/2 rounded-xl p-6">
+       <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8">
+        <div className="bg-[#222831] w-full sm:w-96 rounded-xl p-6 border border-gray-500 shadow-xl shadow-[#000000]">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-color-primary">
-              Create your account
+              Create an account 
             </h2>
           </div>
 
@@ -66,19 +66,19 @@ export default function Page() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-color-primary"
                 >
-                  Email address
+                  Email
                 </label>
                 <div className="mt-2">
                   <input
-                    onChange={(e) => {
-                      setData({ ...data, email: e.target.value });
-                    }}
                     id="email"
                     name="email"
                     type="email"
+                    value={data.email}
+                    onChange={(e) => {
+                      setData({ ...data, email: e.target.value });
+                    }}
                     required
-                    autoComplete="email"
-                    className="block w-full rounded-md border-0 p-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-4 rounded-md border-0 py-1.5 text-color-dark  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-color-primary sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -91,14 +91,15 @@ export default function Page() {
                 </label>
                 <div className="mt-2">
                   <input
-                    onChange={(e) => {
-                      setData({ ...data, name: e.target.value });
-                    }}
                     id="username"
                     name="username"
                     type="text"
+                    value={data.name}
+                    onChange={(e) => {
+                      setData({ ...data, name: e.target.value });
+                    }}
                     required
-                    className="block w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-4 rounded-md border-0 py-1.5 text-color-dark  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-color-primary sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -111,9 +112,11 @@ export default function Page() {
                   >
                     Password
                   </label>
+                
                 </div>
                 <div className="mt-2">
                   <input
+                    value={data.password}
                     onChange={(e) => {
                       setData({ ...data, password: e.target.value });
                     }}
@@ -122,7 +125,7 @@ export default function Page() {
                     type="password"
                     required
                     autoComplete="current-password"
-                    className="block w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-4 rounded-md border-0 py-1.5 text-color-dark shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-color-primary sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -130,9 +133,9 @@ export default function Page() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-[#4285F4] hover:bg-[#4285F4]/90 px-3 py-1.5 text-sm font-semibold leading-6 text-color-primary shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="flex w-full text-color-primary justify-center rounded-md bg-blue-500 text-white shadow-lg hover:bg-blue-600 transition-all duration-300 px-3 py-1.5 text-sm font-semibold leading-6"
                 >
-                  Sign Up
+                  Sign up
                 </button>
               </div>
             </form>
@@ -141,7 +144,7 @@ export default function Page() {
               Already have an account?{" "}
               <a
                 href="/login"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                className="font-semibold leading-6 text-color-primary hover:text-blue-500 transition-all duration-200"
               >
                 Sign in
               </a>

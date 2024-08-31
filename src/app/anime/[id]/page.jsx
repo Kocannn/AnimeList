@@ -3,7 +3,7 @@ import Image from "next/image";
 import { authUserSession } from "../../../libs/auth-libs";
 import prisma from "../../../libs/prisma";
 
-import { getServerSideProps as getAnime } from "../../../libs/api-libs";
+import { getStaticProps as getAnime } from "../../../libs/api-libs";
 
 const VideoPlayer = dynamic(
   () => import("../../../components/utilities/VideoPlayer"),

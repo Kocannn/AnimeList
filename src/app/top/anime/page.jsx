@@ -1,8 +1,8 @@
 "use client";
 
 import Pagignation from "../../../components/utilities/Pagignation";
-import React, { Suspense ,lazy, useEffect, useState } from "react";
-import { getServerSideProps as getAnime , getAnimeResponse} from "../../../libs/api-libs";
+import React, { lazy, useEffect, useState } from "react";
+import { getServerSideProps as getAnime} from "../../../libs/api-libs";
 import Loading from '../../loading'
 
 const Header = lazy(() => import("../../../components/animeList/Header"));
@@ -33,7 +33,6 @@ const Page = () => {
       <div className="mt-4">
         <Header title={"Top Anime"} />
       </div>
-      <Suspense fallback={<Loading />}>
       {!loading ? (
         <>
         <AnimeList api={topAnime} context={"anime"} />
@@ -44,7 +43,6 @@ const Page = () => {
           />
           </>
       ): <Loading /> }
-        </Suspense>
     </>
   );
 };

@@ -15,21 +15,28 @@ const InputSearch = () => {
       router.push(`/search/${keyword}`);
     }
   };
+  
   const handleKeyDown = (ev) => {
     if (ev.key === "Enter") {
       handleSearch(ev);
     }
   };
+
   return (
-    <div className="relative items-center">
+    <div className="relative flex items-center">
       <input
-        placeholder="cari anime..."
-        className="p-2 rounded"
+        type="text"
+        placeholder="Search..."
+        className="w-64 p-2 pl-12 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
         ref={searchRef}
         onKeyDown={handleKeyDown}
       />
-      <button name="search-button" className="absolute md:top-2 md:end-5 start-40 top-2 " onClick={handleSearch}>
-        <MagnifyingGlass size={24} />
+      <button
+        name="search-button"
+        className="absolute left-2 flex items-center justify-center p-2 rounded-full hover:from-blue-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+        onClick={handleSearch}
+      >
+        <MagnifyingGlass size={20} weight="bold" />
       </button>
     </div>
   );

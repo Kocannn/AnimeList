@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import Loading from "../../loading";
+import {getServerSideProps as getAnime} from '../../../libs/api-libs'
 const Header = dynamic(() => import("../../../components/animeList/Header"), {
   ssr: false,
 });
@@ -26,16 +27,12 @@ const Page = ({ params }) => {
     const controller = new AbortController();
     const { signal } = controller;
     try {
-      const [animeResponse, mangaResponse] = await Promise.all([
-        getAnimeResponse("anime", `q=${decodedKeyword}&page=${page}`, {
-          signal,
-        }),
-        getAnimeResponse("manga", `q=${decodedKeyword}&page=${page}`, {
-          signal,
-        }),
+      let [animeResponse, mangaResponse] = await Promise.all([
+        await getAnime("anime", `q=${decodedKeyword}&page=${page}`, {signal}),
+        await getAnime("top/manga", `q=${decodedKeyword}&page=${page}`, {signal}),
       ]);
       setData({ anime: animeResponse, manga: mangaResponse });
-      setLastPage(animeResponse.pagination.last_visible_page);
+      setLastPage(animeResponse.props.data.pagination.last_visible_page);
     } catch (err) {
       console.error(err);
     } finally {
@@ -53,8 +50,8 @@ const Page = ({ params }) => {
         {!loading ? (
           <div className="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 px-4 gap-4 h-auto pb-6">
             <>
-              <GenerateAnime api={data.anime} />
-              <GenerateManga api={data.manga} />
+              <GenerateAnime api={data.anime.props.data} />
+              <GenerateManga api={data.manga.props.data} />
             </>
           </div>
         ) : (

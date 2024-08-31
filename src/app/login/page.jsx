@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+
 export default function Page() {
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -23,12 +24,14 @@ export default function Page() {
     router.push("/");
     router.refresh();
   };
+
   const handlerSignInWithGoogle = (e) => {
     e.preventDefault();
     signIn("google", {
       callbackUrl: "/",
     });
   };
+
   const handlerSignInWithGithub = (e) => {
     e.preventDefault();
     signIn("github", {
@@ -60,7 +63,7 @@ export default function Page() {
       )}
 
       <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8">
-        <div className="bg-[#5555] w-1/2 rounded-xl p-6">
+        <div className="bg-[#222831] w-full sm:w-96 rounded-xl p-6 border border-gray-500 shadow-xl shadow-[#000000]">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-color-primary">
               Sign in to your account
@@ -86,7 +89,7 @@ export default function Page() {
                       setData({ ...data, email: e.target.value });
                     }}
                     required
-                    className="block p-4 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-4 rounded-md border-0 py-1.5 text-color-dark shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-color-primary sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -99,14 +102,7 @@ export default function Page() {
                   >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a
-                      href="#"
-                      className="font-semibold text-color-primary hover:text-indigo-500"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
+                
                 </div>
                 <div className="mt-2">
                   <input
@@ -119,17 +115,23 @@ export default function Page() {
                     type="password"
                     required
                     autoComplete="current-password"
-                    className="block p-4 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-4 rounded-md border-0 py-1.5 text-color-dark shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-color-primary sm:text-sm sm:leading-6"
                   />
+                    <div className="flex text-sm justify-end">
+                    <a
+                      href="#"
+                      className="font-semibold text-gray-600 hover:text-blue-500 transition-all duration-200 mt-2"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-row items-center justify-between">
               </div>
 
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center  rounded-md bg-[#4285F4] hover:bg-[#4285F4]/90 px-3 py-1.5 text-sm font-semibold leading-6 text-color-primary shadow-xl hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full text-color-primary justify-center rounded-md bg-blue-500 text-white shadow-lg hover:bg-blue-600 transition-all duration-300 px-3 py-1.5 text-sm font-semibold leading-6"
                 >
                   Sign In
                 </button>
@@ -137,10 +139,10 @@ export default function Page() {
             </form>
 
             <p className="mt-10 text-center text-sm text-gray-500">
-              Don't have any acount?{" "}
+              Don't have an account?{" "}
               <a
                 href="/register"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                className="font-semibold leading-6 text-color-primary hover:text-blue-500 transition-all duration-200"
               >
                 Create account
               </a>
