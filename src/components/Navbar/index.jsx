@@ -6,7 +6,7 @@ import { authUserSession } from "../../libs/auth-libs";
 const NavBar = async () => {
   const user = await authUserSession();
   return (
-    <header className="bg-gradient-to-b from-[#222831] via-[#1d2024] to-[#222831] border-b border-color-primary mb-10">
+    <header className="bg-gradient-to-b from-[#222831] via-[#1d2024] to-[#222831] border-b border-color-primary">
       <div className="flex md:items-center md:flex-row sm:flex-row items-center justify-between p-4 gap-4">
         <div className="flex gap-4 items-center">
           <Link href="/">

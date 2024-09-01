@@ -33,6 +33,9 @@ const nextConfig = {
       {
         hostname: "www.pngarts.com",
       },
+      {
+        hostname: "via.placeholder.com",
+      }
     ],
   },
 };

@@ -17,6 +17,12 @@ export default {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      gridTemplateColumns: {
+        '16': 'repeat(16, minmax(0, 1fr))',
+        '24': 'repeat(24, minmax(0, 1fr))',
+
+
+      },
     },
     colors: {
       color: {

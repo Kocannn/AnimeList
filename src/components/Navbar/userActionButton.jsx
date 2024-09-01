@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
 
-const UserActionButton = () => {
+
+const UserActionButton = ( user ) => {
 	const [menuVisible, setMenuVisible] = useState(false);
 	const menuRef = useRef(null);
 	const menuHandler = () => setMenuVisible(!menuVisible)
@@ -52,7 +53,7 @@ const UserActionButton = () => {
             </Link>
 
             <Link
-              href="/users/dashboard"
+              href={`/users/${user.users.name}`}
               className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
             >
               View Account
