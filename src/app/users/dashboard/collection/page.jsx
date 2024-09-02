@@ -4,8 +4,9 @@ import prisma from "../../../../libs/prisma";
 import { authUserSession } from "../../../../libs/auth-libs";
 const Page = async () => {
   const user = await authUserSession();
+  console.log(user);
   const collection = await prisma.collection.findMany({
-    where: { user_email: user.email },
+    where: { userId: user.email },
   });
   return (
     <>

@@ -30,12 +30,22 @@ const Page = async ({ params: { id } }) => {
   const { props : {data: data}} = await getAnime(`anime/${id}`);
   const anime = data
   const user = await authUserSession();
-  const collection = await prisma.collection.findFirst({
-    where: { user_email: user?.email, anime_mal_id: id },
-  });
-  const rating = await prisma.rating.findFirst({
-    where: { user_email: user?.email, anime_mal_id: id },
-  });
+  const dataUser = await prisma.user.findFirst({
+    where: { id: user?.id },
+    include:{
+      collections: {
+        where:{
+          mediaId: id
+        }
+      },
+      ratings:{
+        where:{
+          mediaId: id
+        }
+      }
+    }
+  })
+  console.log(dataUser)
   return (
     <>
       <div className="flex py-4 px-4 gap-2 items-center">
@@ -52,24 +62,23 @@ const Page = async ({ params: { id } }) => {
             <div className="flex mt-2 w-full items-center justify-center flex-col gap-2">
               <div className="flex flex-cols items-center gap-2 justify-center">
                 <Rating
-                  anime_mal_id={id}
-                  user_email={user?.email}
-                  value={rating?.ratings}
-                  anime_title={anime.data.title}
+                  mediaId={id}
+                  userId={user?.id}
+                  value={dataUser.ratings[0]?.rating}
                 />
-                {rating?.ratings ? (
-                  <p className="text-color-primary">{`${rating.ratings} / 5`}</p>
+                {dataUser.ratings[0]?.rating ? (
+                  <p className="text-color-primary">{`${dataUser.ratings[0].rating} / 5`}</p>
                 ) : (
                   ""
                 )}
               </div>
-              {!collection && user && (
+              {!dataUser.collections[0] && user && (
                 <CollectionButton
-                  anime_image={anime.data.images.webp.image_url}
-                  anime_mal_id={id}
-                  anime_title={anime.data.title}
-                  user_email={user?.email}
-                  type={"anime"}
+                  image={anime.data.images.webp.image_url}
+                  mediaId={id}
+                  title={anime.data.title}
+                  userId={user?.id}
+                  mediaType={"anime"}
                 />
               )}
             </div>
@@ -149,16 +158,14 @@ const Page = async ({ params: { id } }) => {
       </h2>
       {user && (
         <Comment
-          anime_mal_id={id}
-          anime_title={anime.data.title}
-          user_email={user?.email}
-          user_name={user.name}
-          user_image={user.image}
-          type={"anime"}
+          mediaId={id}
+          userId={user?.id}
+          userName={user.name}
+          userImage={user.image}
         />
       )}
 
-      <CommentBox anime_mal_id={id} />
+      <CommentBox mediaId={id} />
       <div>
         <VideoPlayer youtubeId={anime.data.trailer.youtube_id} />
       </div>

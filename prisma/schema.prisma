@@ -13,36 +13,119 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Collection  {
-  id                Int @id @default(autoincrement())
-  anime_mal_id      String  
-  user_email        String
-  anime_title       String?
-  anime_image       String?
-  type              String
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  hashedPassword String?
+  emailVerified  DateTime? @map("email_verified")
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
+  collections    Collection[]
+  comments       Comment[]
+  ratings        Rating[]
+  forumPosts     ForumPost[]
+  forumComments  ForumComment[]
+  activities     Activity[]
 
-  @@unique([anime_mal_id,user_email])
+  @@map("users")
 }
 
-model Comment{
-  id                Int @id @default(autoincrement())
-  anime_mal_id      String
-  user_email        String
-  comment           String
-  user_name         String
-  anime_title       String
-  user_image        String
-  type              String
-  created_at        DateTime @default(now())
+model Collection {
+  id            Int    @id @default(autoincrement())
+  userId        String
+  mediaId       String
+  mediaType     String  // Could be "anime", "manga", "character", etc.
+  title         String?
+  image         String?
+
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, userId, mediaType])
+  @@map("collections")
 }
 
-model Rating{
-  id                Int @id @default(autoincrement())
-  anime_mal_id      String
-  user_email        String
-  anime_title       String
-  ratings           Int
-  @@unique([anime_mal_id,user_email])
+model Comment {
+  id            Int      @id @default(autoincrement())
+  mediaId       String
+  userId        String
+  comment       String
+  userName      String
+  userImage     String
+  createdAt     DateTime @default(now())
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Rating {
+  id            Int    @id @default(autoincrement())
+  mediaId       String
+  userId        String
+  rating        Int
+
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, userId])
+  @@map("ratings")
+}
+
+model ForumPost {
+  id            Int           @id @default(autoincrement())
+  userId        String
+  title         String
+  content       String
+  createdAt     DateTime       @default(now())
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments      ForumComment[]
+
+  @@map("forum_posts")
+}
+
+model ForumComment {
+  id            Int           @id @default(autoincrement())
+  postId        Int
+  userId        String
+  parentId      Int?           // To support threaded comments
+  content       String
+  createdAt     DateTime       @default(now())
+
+  post          ForumPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Relation to itself to support nested comments (replies)
+  parent        ForumComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies       ForumComment[] @relation("CommentReplies")
+
+  @@map("forum_comments")
+}
+
+
+model Activity {
+  id            Int      @id @default(autoincrement())
+  userId        String
+  action        String    // Example: "posted", "commented"
+  targetId      Int?      // ID of the target (like post or comment)
+  targetType    String?   // Example: "ForumPost", "ForumComment"
+  createdAt     DateTime  @default(now())
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activities")
+}
+
+model MediaCache {
+  id            Int    @id @default(autoincrement())
+  mediaId       String @unique
+  mediaType     String  // "anime", "manga", etc.
+  title         String
+  data          Json
+  createdAt     DateTime @default(now())
+
+  @@map("media_cache")
 }
 
 model Account {
@@ -64,6 +147,7 @@ model Account {
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")
@@ -72,17 +156,4 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@map("sessions")
-}
- 
-model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  hashedPassword String?
-  emailVerified  DateTime? @map("email_verified")
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
- 
-  @@map("users")
 }

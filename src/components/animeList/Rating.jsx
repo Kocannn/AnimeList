@@ -9,7 +9,7 @@ const myStyles = {
   inactiveFillColor: "#fbf1a9",
 };
 
-const MyRating = ({ anime_mal_id, user_email, value, anime_title }) => {
+const MyRating = ({ mediaId, userId, value }) => {
   const [rating, setRating] = useState(0);
   const [read, setRead] = useState(false);
   const router = useRouter();
@@ -18,12 +18,12 @@ const MyRating = ({ anime_mal_id, user_email, value, anime_title }) => {
   if (value > 0) setRead(true);
   },[value])
 
-  const handleRating = async (ratings) => {
-    setRating(ratings);
-    await updateRating(ratings);
+  const handleRating = async (rating) => {
+    setRating(rating);
+    await updateRating(rating);
   };
-  const updateRating = async (ratings) => {
-    const data = { ratings, anime_mal_id, user_email, anime_title };
+  const updateRating = async (rating) => {
+    const data = { mediaId, userId, rating};
     const response = await fetch("/api/v1/ratings", {
       method: "POST",
       headers: {

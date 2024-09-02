@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-const Comment = ({ anime_mal_id, user_email, user_name, anime_title, user_image, type }) => {
+const Comment = ({ mediaId, userId, userName, userImage, }) => {
   const [comment, setComment] = useState("");
   const [isCreated, setIsCreated] = useState(false);
   const router = useRouter();
@@ -12,13 +12,12 @@ const Comment = ({ anime_mal_id, user_email, user_name, anime_title, user_image,
     event.preventDefault();
     if (comment.length >= 3) {
       const data = {
-        anime_mal_id,
-        user_email,
+        mediaId,
+        userId,
         comment,
-        user_name,
-        anime_title,
-        user_image,
-        type
+        userName,
+        userImage,
+      
       };
       const response = await fetch("/api/v1/comment", {
         method: "POST",
