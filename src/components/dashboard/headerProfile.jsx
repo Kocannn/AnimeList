@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Page = ({image, user, active}) => {
+const Page = ({image, user, active,login, params}) => {
   return (
     <>
-      <div className="bg-[#1d2024] h-72 flex flex-col justify-center items-center">
-        <div className="w-40 h-40 rounded-full overflow-hidden">
+      <div className="bg-[#1d2024] h-72 flex flex-row px-40 items-end gap-9 ">
+        <div className="w-40 h-40 ">
           <Image
             src={image}
             alt={`${user}'s Profile Image`}
@@ -14,7 +14,10 @@ const Page = ({image, user, active}) => {
             className="object-cover"
           />
         </div>
-        <h1 className="text-color-primary text-2xl mt-4">{user}</h1>
+        <div className="flex flex-row w-full justify-between mb-4 items-center">
+          <h1 className="text-color-primary text-2xl">{user}</h1>
+          {params !== login && <button className="bg-color-primary text-color-dark px-4 py-1 rounded transition-all shadow-xl text-xl hover:bg-opacity-80"> Follow </button>}
+        </div>
       </div>
 
       <div className="bg-color-primary py-4">

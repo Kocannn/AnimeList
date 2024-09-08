@@ -1,14 +1,32 @@
+"use client"
 import HeaderProfile from "../../../../components/dashboard/headerProfile"
-import { authUserSession } from "../../../../libs/auth-libs"
-import prisma from "../../../../libs/prisma"
-const Page = async() => {
-  const {name, image, email} = await authUserSession()
-  const collection = await prisma.collection.findMany({
-    where: { userId: email },
-  })
+import { useParams } from "next/navigation"
+import { useState, useEffect } from "react"
+import  { MangaListCollection } from "../../../../components/AnimeListCollection/index"
+
+
+const Page = () => {
+  const router = useParams()
+  const user = router.user
+  const [data, setData] = useState([])
+
+  const fetchUser = async () => {
+    const response = await fetch(`/api/v1/getUsers`, {
+      method: "POST",
+      body: JSON.stringify({ name: user }),
+    })
+    const data = await response.json()
+    setData(data)
+    return data
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
   return (
     <div className="bg-gray-100 min-h-screen">
-      <HeaderProfile user={name} image={image} active={3} />
+      <HeaderProfile user={user} image={data.image} active={3} />
+      <MangaListCollection user={data} />
     </div>
   )
 }
